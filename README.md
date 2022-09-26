@@ -62,7 +62,7 @@ DAG /w Config.
 ## ETM ESSIM Demo
 
 To demonstrate the model orchestrator, there is a demo available under the `etm_essim_demo` DAG. The 
-complete specification of this demo is found in `./dags/etm_essim_demo.py`. This demo is based on the 
+complete specification of this demo is found in [`./dags/etm_essim_demo.py`](https://github.com/MultiModelling/Model-Orchestrator/blob/main/dags/etm_essim_demo.py). This demo is based on the 
 concept of model-handler interaction. Inside the task graph nodes of a DAG, handlers are instantiated 
 that interact with external handlers.
 
@@ -74,15 +74,8 @@ repositories and running the Docker containers with `docker-compose up -d`:
 * esdl-add-price-profile-adapter
 * essim-adapter
 
-Once all these Docker containers are running, we need to initialize the input data. To do this, run 
-the following script:
-
-```
-./init.py
-```
-
 Now we can run the demo by running the DAG. For this we also need the appropriate configuration file, 
-which can be found in `./common/configs/etm_essim_demo.json`. We copy this configuration and then in 
+which can be found in [`./common/configs/etm_essim_demo.json`](https://github.com/MultiModelling/Model-Orchestrator/blob/main/common/configs/etm_essim_demo.json). We copy this configuration and then in 
 Airflow we select the `etm_essim_demo` DAG. We then select the run button (▶) and select to Trigger 
 DAG /w Config. In the config box we paste the JSON configuration that we have previously copied. 
 Finally, by pressing `Trigger` the DAG will be scheduled to run by the orchestrator.
@@ -104,12 +97,10 @@ All inputs and outputs are written to and loaded from minio, which is locally av
 - [x] Generic Handler Services
   - [x] REST API
   - [ ] Message Bus
-- [ ] Dynamic Adapter Register
-- [ ] DB Ingress/Egress Wrappers
-- [ ] Execution order after Trigger
-- [ ] Managing Parallel Workflows
-- [ ] Managing Looping Workflows
-- [ ] Investigate User Run Management
-- [ ] Recursive Calls within Workflows
+- [x] Dynamic Adapter Register
+- [x] DB Ingress/Egress Wrappers
+- [x] Execution order after Trigger
+- [x] Managing Parallel Workflows
+- [ ] Advanced User Run Management
 
 ***
