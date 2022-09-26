@@ -1,8 +1,9 @@
 {
 	"user": "mmvib",
 	"scenario_id": "etm_esdl_essim",
-	"interfaces": {
-		"Pull_Data_Minio": {
+	"model_registry": "mmvib-registry:9200",
+	"databases": {
+		"Minio": {
 			"api_addr": "minio:9000",
 			"db_config": {
 				"secure": false,
@@ -10,7 +11,7 @@
 				"secret_key": "password"
 			}
 		},
-		"Load_Data_Influx": {
+		"Influx": {
 			"api_addr": "influxdb:8086",
 			"db_config": {
 				"db_name": "energy_profiles",
@@ -18,9 +19,29 @@
 			}
 		}
 	},
+	"models": {
+		"ETM": {
+			"api_addr": "http://etm-price-profile-adapter:9201"
+		},
+		"ESDL_ETM": {
+			"api_addr": "http://esdl-add-price-profile-adapter:9202"
+		},
+		"ESSIM": {
+			"api_addr": "http://mmvib-essim-adapter:9203"
+		}
+	},
 	"tasks": {
+		"Pull_Data_Minio": {
+			"type": "transaction",
+			"api_id": "Minio"
+		},
+		"Load_Data_Influx": {
+			"type":"transaction",
+			"api_id": "Influx"
+		},
 		"Generate_ETM_Price_Profile": {
-			"api_addr": "http://etm-price-profile-adapter:9201",
+			"type": "computation",
+			"api_id": "ETM",
 			"model_config": {
 				"etm_config": {
 					"endpoint": "https://engine.energytransitionmodel.com/api/v3/",
@@ -31,22 +52,17 @@
 			}
 		},
 		"Combine_ESDL_ETM": {
-			"api_addr": "http://esdl-add-price-profile-adapter:9202",
+			"type": "computation",
+			"api_id": "ESDL_ETM",
 			"model_config": {
-				"influxdb_config": {
-					"host": "http://influxdb",
-					"port": 8086,
-					"database": "energy_profiles",
-					"measurement": "etm_price_profile",
-					"field": "price_2050"
-				},
 				"input_esdl_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/Hybrid HeatPump.esdl",
 				"input_csv_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ETM_price_profile_adapter/elektrictitetisprijs_profiel.csv",
 				"output_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/HHP_profile.esdl"
 			}
 		},
 		"Run_ESSIM_Simulation": {
-			"api_addr": "http://mmvib-essim-adapter:9203",
+			"type": "computation",
+			"api_id": "ESSIM",
 			"model_config": {
 				"essim_post_body": {
 					"user": "essim",
@@ -61,7 +77,7 @@
 						"modules": [{
 							"id": "TotalEnergyProductionID",
 							"config": {
-								"scope": "Local"
+								"scope": "Total"
 							}
 						}]
 					}
