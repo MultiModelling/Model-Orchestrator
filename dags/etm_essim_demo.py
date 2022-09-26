@@ -13,6 +13,7 @@ from modules.handlers.rest_handler import RestHandler
 
 import logging
 import requests
+import json
 import sys
 import os
 
@@ -28,8 +29,41 @@ default_args = {
 
 # Initialization Space for the DAG
 def subroutine_initialize(self, *args, **kwargs):
+
     logging.info('Initializing DAG with ' + str(kwargs['dag_run'].conf))
+
     task_instance = kwargs['task_instance']
+    task_id = kwargs['task'].task_id
+
+    # Check if all models are available in task list
+    registry = kwargs['dag_run'].conf['model_registry']
+
+    try:
+        r = requests.get(registry)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(e.response.text)
+
+    # Collect unique models in our workflow
+    model_inventory = set()
+    task_list = kwargs['dag_run'].conf['tasks']
+
+    for task in task_list:
+        if task_list[task]['type'] == 'computation':
+            model_inventory.add(task_list[task]['api_id'])
+
+    logging.info("Model Inventory: " + str(model_inventory))
+
+    # Check for available models
+    data = r.json()
+    for item in data:
+
+        if item['name'] in model_inventory:
+            model_inventory.remove(item['name'])
+
+    # Check if we have any unavailable models left in the inventory
+    if model_inventory:
+        logging.info("ERROR: Not all models available in " + task_id + " , missing: " + str(model_inventory))
 
     return None
 
@@ -73,16 +107,39 @@ def subroutine_computation(self, **kwargs):
 
     api_id = kwargs['dag_run'].conf['tasks'][task_id]['api_id']
 
-    api_addr = kwargs['dag_run'].conf['models'][api_id]['api_addr']
+    # Get API addr through registry request
+    registry = kwargs['dag_run'].conf['model_registry']
+    model_request = {'name': api_id}
+
+    try:
+        r = requests.post(str(registry) + 'search', json=model_request)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(e.response.text)
+
+    data = r.json()
+    api_addr = None
+
+    for item in data:
+        if item['status'] == "READY":
+            api_addr = str(item['uri'])
+            break
+    if api_addr is None:
+        raise AirflowException("ERROR: No model available in " + task_id)
+
+    logging.info('Using model ' + str(api_id) + ' located at ' + str(api_addr))
+
+    # Get experiment model config
     config = kwargs['dag_run'].conf['tasks'][task_id]['model_config']
 
+    # Initialize Model Handler
     rest_handler = RestHandler(api_addr=api_addr,
                                task_instance=task_instance,
                                config=config,
                                logger=logging,
                                timeout=0) # disable timeout, as some essim simulations take longer than 60s
 
-    # Initialize Model
+    # Connect Handler with Adapter
     rest_handler.get_adapter_status()
     response = rest_handler.request_model_instance()
     model_run_id = response['model_run_id']

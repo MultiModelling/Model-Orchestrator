@@ -1,7 +1,7 @@
 {
 	"user": "mmvib",
 	"scenario_id": "etm_esdl_essim",
-	"model_registry": "mmvib-registry:9200",
+	"model_registry": "http://mmvib-registry:9200/registry/",
 	"databases": {
 		"Minio": {
 			"api_addr": "minio:9000",
@@ -17,17 +17,6 @@
 				"db_name": "energy_profiles",
 				"use_ssl": false
 			}
-		}
-	},
-	"models": {
-		"ETM": {
-			"api_addr": "http://etm-price-profile-adapter:9201"
-		},
-		"ESDL_ETM": {
-			"api_addr": "http://esdl-add-price-profile-adapter:9202"
-		},
-		"ESSIM": {
-			"api_addr": "http://mmvib-essim-adapter:9203"
 		}
 	},
 	"tasks": {
