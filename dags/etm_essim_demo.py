@@ -25,33 +25,6 @@ default_args = {
     "retry_delay": timedelta(seconds=5)
 }
 
-# Config Template
-# {
-# 	"user": "mmvib",
-# 	"scenario_id": "etm_esdl_essim",
-# 	"tasks": {
-# 		"Generate_ETM_Price_Profile": {
-# 			"api_addr": "http://host.docker.internal:9201",
-# 			"model_config": {
-#                 ...
-#             }
-# 		},
-# 		"Combine_ESDL_ETM": {
-# 			"api_addr": "http://host.docker.internal:9202",
-# 			"model_config": {
-#                 ...
-#             }
-# 		},
-# 		"Run_ESSIM_Simulation": {
-# 			"api_addr": "http://host.docker.internal:9203",
-# 			"model_config": {
-#                 ...
-#             }
-# 		}
-#
-# 	}
-# }
-
 
 # Initialization Space for the DAG
 def subroutine_initialize(self, *args, **kwargs):
