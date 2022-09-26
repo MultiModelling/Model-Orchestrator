@@ -74,13 +74,6 @@ repositories and running the Docker containers with `docker-compose up -d`:
 * esdl-add-price-profile-adapter
 * essim-adapter
 
-Once all these Docker containers are running, we need to initialize the input data. To do this, run 
-the following script:
-
-```
-./init.py
-```
-
 Now we can run the demo by running the DAG. For this we also need the appropriate configuration file, 
 which can be found in `./common/configs/etm_essim_demo.json`. We copy this configuration and then in 
 Airflow we select the `etm_essim_demo` DAG. We then select the run button (▶) and select to Trigger 
@@ -104,12 +97,10 @@ All inputs and outputs are written to and loaded from minio, which is locally av
 - [x] Generic Handler Services
   - [x] REST API
   - [ ] Message Bus
-- [ ] Dynamic Adapter Register
-- [ ] DB Ingress/Egress Wrappers
-- [ ] Execution order after Trigger
-- [ ] Managing Parallel Workflows
-- [ ] Managing Looping Workflows
-- [ ] Investigate User Run Management
-- [ ] Recursive Calls within Workflows
+- [x] Dynamic Adapter Register
+- [x] DB Ingress/Egress Wrappers
+- [x] Execution order after Trigger
+- [x] Managing Parallel Workflows
+- [ ] Advanced User Run Management
 
 ***
