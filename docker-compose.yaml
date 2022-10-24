@@ -50,12 +50,13 @@ x-airflow-common:
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
-    #AIRFLOW__CORE__min_serialized_dag_update_interval: 600
-    AIRFLOW__SCHEDULER__min_file_process_interval: 60
-    #AIRFLOW__SCHEDULER__parsing_processes: 1
+    # AIRFLOW__CORE__min_serialized_dag_update_interval: 600
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: '0'
+    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: '5'
+    # AIRFLOW__SCHEDULER__parsing_processes: 1
     AIRFLOW__WEBSERVER__WORKERS: 2
     AIRFLOW__WEBSERVER__WORKER_REFRESH_INTERVAL: 120
 
