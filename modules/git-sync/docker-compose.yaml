@@ -1,0 +1,13 @@
+version: "3.9"
+
+
+services:
+  git-interface:
+    build: .
+    network_mode: bridge
+    env_file: .env.remote
+    environment:
+      - SCHEDULER_INTERVAL=5
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./dags:/usr/src/app/git

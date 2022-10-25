@@ -102,6 +102,16 @@ services:
     restart: on-failure
     networks:
       - mmvib-net
+      
+  git-interface:
+    build: ./modules/git-sync
+    network_mode: bridge
+    env_file: ./modules/git-sync/.env.remote
+    environment:
+      - SCHEDULER_INTERVAL=5
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./dags:/usr/src/app/git
 
   airflow-webserver:
     <<: *airflow-common
