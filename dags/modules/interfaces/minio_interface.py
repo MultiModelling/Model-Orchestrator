@@ -25,7 +25,7 @@ class MinIOInterface:
 
         # Initialize ESDL Data into MinIO
         input_data = "./data/Hybrid HeatPump.esdl"
-        destination_path = "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/Hybrid HeatPump.esdl"
+        destination_path = "bedrijventerreinommoord/Scenario_1_II3050_Nationale_Sturing/Trial_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/Hybrid HeatPump.esdl"
 
         bucket = destination_path.split("/")[0]
         rest_of_path = "/".join(destination_path.split("/")[1:])

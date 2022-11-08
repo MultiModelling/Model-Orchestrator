@@ -17,6 +17,10 @@ default_scheduler_interval = 5
 def event_loop(sc, instances):
 
     logging.info("Performing Sync with %s", str(instances[0].git_remote_url))
+    
+    # if not os.path.exists(instances[0].git_local_path) or len(os.listdir(instances[0].git_local_path)) == 0:
+        # logging.info("Cloned ew Repo Instance")
+        # instances[0].clone_git_repo()    
 
     if not instances[0].check_integrity():
         logging.info("Recovered Repo Integrity")

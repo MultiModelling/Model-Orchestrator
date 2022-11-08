@@ -24,9 +24,9 @@ class GitInterface:
 
         if not os.path.exists(self.git_local_path) or len(os.listdir(self.git_local_path)) == 0:
             self.clone_git_repo()
-        else:
-            if self.is_git_repo():
-                self.update_git_repo()
+        # else:
+            # if self.is_git_repo():
+                # self.update_git_repo()
 
         return git.Repo(self.git_local_path)
 

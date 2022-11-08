@@ -12,11 +12,18 @@ class RestHandler:
         CONNECTED = 3
         FAILED = 4
 
-    def __init__(self, api_addr, task_instance, config=None, params=None, logger=None, timeout=60):
+    def __init__(self, api_addr, task_instance, metadata=None, config=None, params=None, logger=None, timeout=60):
         """
         @params timeout if after timeout seconds the task has not finished, it will be marked as FAILED.
             Set to 0 to disable timeout, this might hang your workflow, default is 60 seconds.
         """
+
+        def filter_metadata(d, k):
+            s = set(k)
+            for k, v in d.items():
+                if k not in s:
+                    yield v
+
         if params is None:
             params = {}
 
@@ -31,6 +38,7 @@ class RestHandler:
                               "remove": "/model/remove/{}"}
 
         # API Payload
+        self.metadata = metadata
         self.config = config
 
         # Handler Params
@@ -44,6 +52,13 @@ class RestHandler:
 
         # Identifiers - This should become a local hash map
         self.model_id_list = []
+
+        # Set Base Path
+        self.base_path = "/".join("=".join([str(value)]) for value in
+                                  [v for v in filter_metadata(metadata, ['user'])]) \
+                         + "/"
+        self.config = {**self.config, **{'base_path': self.base_path}}
+        self.logger.info('Handler ' + str(self.task_instance) + ' Config: ' + str(self.config))
 
         # Log Initialization
         self.__set_handler_status(self.State.INITIALIZED)
