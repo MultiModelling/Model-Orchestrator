@@ -79,6 +79,7 @@
 					}
 				},
 				"input_esdl_file_path": "ESDL_add_price_profile_adapter/HHP_profile.esdl",
+				"output_esdl_file_path": "ESSIM_adapter/HHP_KPIs.esdl",
 				"output_file_path": "ESSIM_adapter/KPIs.json"
 			}
 		}
