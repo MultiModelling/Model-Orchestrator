@@ -101,6 +101,7 @@ All inputs and outputs are written to and loaded from minio, which is locally av
 - [x] DB Ingress/Egress Wrappers
 - [x] Execution order after Trigger
 - [x] Managing Parallel Workflows
+- [x] Syncing from git Repository
 - [ ] Advanced User Run Management
 
 ***
