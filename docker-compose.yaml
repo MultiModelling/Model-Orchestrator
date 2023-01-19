@@ -59,6 +59,7 @@ x-airflow-common:
     # AIRFLOW__SCHEDULER__parsing_processes: 1
     AIRFLOW__WEBSERVER__WORKERS: 2
     AIRFLOW__WEBSERVER__WORKER_REFRESH_INTERVAL: 120
+    AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: 'true'
 
   volumes:
     - ./dags:/opt/airflow/dags
