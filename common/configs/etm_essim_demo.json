@@ -1,7 +1,14 @@
 {
-	"user": "mmvib",
-	"scenario_id": "etm_esdl_essim",
-	"model_registry": "http://mmvib-registry:9200/registry/",
+	"metadata": {
+		"user": "mmvib",
+		"project": "bedrijventerreinommoord",
+		"scenario": "Scenario_1_II3050_Nationale_Sturing",
+		"experiment": "Trial_1",
+		"run": "MM_workflow_run_1"
+	},
+	"modules": {
+		"model_registry": "http://mmvib-registry:9200/registry/"
+	},
 	"databases": {
 		"Minio": {
 			"api_addr": "minio:9000",
@@ -37,16 +44,16 @@
 					"path": "scenarios/{}/curves/electricity_price.csv",
 					"scenario_ID": "763305"
 				},
-				"output_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ETM_price_profile_adapter/elektrictitetisprijs_profiel.csv"
+				"output_file_path": "ETM_price_profile_adapter/elektrictitetisprijs_profiel.csv"
 			}
 		},
 		"Combine_ESDL_ETM": {
 			"type": "computation",
 			"api_id": "ESDL_ETM",
 			"model_config": {
-				"input_esdl_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/Hybrid HeatPump.esdl",
-				"input_csv_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ETM_price_profile_adapter/elektrictitetisprijs_profiel.csv",
-				"output_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/HHP_profile.esdl"
+				"input_esdl_file_path": "ESDL_add_price_profile_adapter/Hybrid HeatPump.esdl",
+				"input_csv_file_path": "ETM_price_profile_adapter/elektrictitetisprijs_profiel.csv",
+				"output_file_path": "ESDL_add_price_profile_adapter/HHP_profile.esdl"
 			}
 		},
 		"Run_ESSIM_Simulation": {
@@ -71,8 +78,9 @@
 						}]
 					}
 				},
-				"input_esdl_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESDL_add_price_profile_adapter/HHP_profile.esdl",
-				"output_file_path": "bedrijventerreinommoord/Trial_20220708_1/Scenario_1_II3050_Nationale_Sturing/Experiment_1/MM_workflow_run_1/ESSIM_adapter/KPIs.json"
+				"input_esdl_file_path": "ESDL_add_price_profile_adapter/HHP_profile.esdl",
+				"output_esdl_file_path": "ESSIM_adapter/HHP_KPIs.esdl",
+				"output_file_path": "ESSIM_adapter/KPIs.json"
 			}
 		}
 
