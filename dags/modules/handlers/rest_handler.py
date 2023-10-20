@@ -146,9 +146,11 @@ class RestHandler:
     # Get Model Run Results
     def get_model_results(self, model_run_id) -> requests.Response:
         try:
-            response = requests.get((self.api_addr + self.api_endpoints['results']).format(model_run_id))
+            url = (self.api_addr + self.api_endpoints['results']).format(model_run_id)
+            response = requests.get(url)
         except requests.exceptions.RequestException as exception:
             self.__set_handler_status(self.State.FAILED)
+            self.logger.error("URL was: " + url)
             raise AirflowException(exception)
 
         if response.headers.get('content-type') == 'application/json':
